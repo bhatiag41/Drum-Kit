@@ -46,7 +46,6 @@
             <kbd>L</kbd>
             <span class="sound">TINK</span>
         </div>
-
     </div>
     <audio data-key="65" src="sounds/clap.wav"></audio>
     <audio data-key="83" src="sounds/hihat.wav"></audio>
@@ -59,26 +58,25 @@
     <audio data-key="76" src="sounds/tink.wav"></audio>
     <script>
         function audioplay(e){
-            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
-            const key =document.querySelector(`.block[data-key="${e.keyCode}"]`)
-            if(!audio) return;
-            audio.currentTime=0;
+            const keyCode = e.keyCode || e.target.closest('.block').dataset.key;
+            const audio = document.querySelector(`audio[data-key="${keyCode}"]`);
+            const key = document.querySelector(`.block[data-key="${keyCode}"]`);
+            if (!audio) return;
+            audio.currentTime = 0;
             audio.play();
             key.classList.add('playing');
         }
         
-        window.addEventListener('keydown', audioplay)
-
-
+        window.addEventListener('keydown', audioplay);
+        
         function removetransition(e){
-            if(e.propertyName !== 'transform') return;
+            if (e.propertyName !== 'transform') return;
             this.classList.remove('playing');
         }
         
-        const keys=document.querySelectorAll('.block')
-        keys.forEach(key=> key.addEventListener('transitionend',removetransition))
-        
+        const keys = document.querySelectorAll('.block');
+        keys.forEach(key => key.addEventListener('transitionend', removetransition));
+        keys.forEach(key => key.addEventListener('click', audioplay));
     </script>
-
 </body>
 </html>
